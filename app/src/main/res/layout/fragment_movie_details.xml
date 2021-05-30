@@ -1,14 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/details_background"
     tools:context=".ui.main.fragments.MovieDetailsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/movie_details_local_title"
+        android:layout_width="@dimen/_0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/standard_margin"
+        android:textSize="@dimen/main_title_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Fight club" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/movie_details_title"
+        android:layout_width="@dimen/_0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/standard_margin"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/movie_details_local_title"
+        tools:text="Original title: Fight Club" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/movie_details_poster"
+        android:layout_width="@dimen/_details_image_size_width"
+        android:layout_height="@dimen/_details_image_size_height"
+        android:layout_margin="@dimen/standard_margin"
+        android:background="@drawable/ic_launcher_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/movie_details_title" />
+
+    <TextView
+        android:id="@+id/movie_details_genres"
+        android:layout_width="@dimen/_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/min_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/movie_details_poster"
+        app:layout_constraintTop_toTopOf="@id/movie_details_poster"
+        tools:text="Ganres: Drama" />
+
+    <TextView
+        android:id="@+id/movie_details_runtime"
+        android:layout_width="@dimen/_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/min_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/movie_details_poster"
+        app:layout_constraintTop_toBottomOf="@id/movie_details_genres"
+        tools:text="139 min" />
+
+    <TextView
+        android:id="@+id/movie_details_votes"
+        android:layout_width="@dimen/_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/min_margin"
+        app:layout_constraintStart_toEndOf="@id/movie_details_poster"
+        app:layout_constraintTop_toBottomOf="@id/movie_details_runtime"
+        tools:text="7.8" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/movie_details_star"
+        android:layout_width="@dimen/vote_star_size"
+        android:layout_height="@dimen/vote_star_size"
+        android:background="@drawable/ic_baseline_star_24"
+        app:layout_constraintTop_toTopOf="@id/movie_details_votes"
+        app:layout_constraintStart_toEndOf="@id/movie_details_votes"
+        app:layout_constraintBottom_toTopOf="@id/movie_details_budget"/>
+
+    <TextView
+        android:id="@+id/movie_details_budget"
+        android:layout_width="@dimen/_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/min_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/movie_details_poster"
+        app:layout_constraintTop_toBottomOf="@id/movie_details_votes"
+        tools:text="Budget: 63000000$" />
+
+    <TextView
+        android:id="@+id/movie_details_revenue"
+        android:layout_width="@dimen/_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/min_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/movie_details_poster"
+        app:layout_constraintTop_toBottomOf="@id/movie_details_budget"
+        tools:text="Revenue: 100853753$" />
+
+    <TextView
+        android:id="@+id/movie_details_release_date"
+        android:layout_width="@dimen/_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/min_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/movie_details_poster"
+        app:layout_constraintTop_toBottomOf="@id/movie_details_revenue"
+        tools:text="Release date: 1999-10-12" />
+
+    <TextView
+        android:id="@+id/movie_details_overview"
+        android:layout_width="@dimen/_0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/standard_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/movie_details_poster"
+        tools:text="A ticking-time-bomb insomniac and a slippery soap salesman
+        channel primal male aggression into a shocking new form of therapy.
+        Their concept catches on, with underground 'fight clubs' forming
+        in every town, until an eccentric gets in the way and ignites an
+        out-of-control spiral toward oblivion." />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

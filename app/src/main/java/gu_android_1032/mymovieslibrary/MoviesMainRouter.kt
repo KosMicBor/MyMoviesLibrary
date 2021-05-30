@@ -1,11 +1,18 @@
 package gu_android_1032.mymovieslibrary
 
+import android.os.Bundle
+import android.os.Parcelable
 import gu_android_1032.mymovieslibrary.ui.main.fragments.MovieDetailsFragment
 import gu_android_1032.mymovieslibrary.ui.main.fragments.MoviesFavoritesFragment
 import gu_android_1032.mymovieslibrary.ui.main.fragments.MoviesMainListFragment
 import gu_android_1032.mymovieslibrary.ui.main.fragments.MoviesRatingsFragment
+import kotlinx.android.parcel.Parcelize
+import kotlinx.android.parcel.RawValue
 
-class MoviesMainRouter(private val activity: MainActivity) {
+@Parcelize
+class MoviesMainRouter(private val activity: @RawValue MainActivity ): Parcelable {
+
+    val bundle = Bundle()
 
     fun openMainList(){
         activity.supportFragmentManager.beginTransaction()
@@ -15,7 +22,7 @@ class MoviesMainRouter(private val activity: MainActivity) {
 
     fun openMovieDetails(){
         activity.supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_main_list_container, MovieDetailsFragment())
+            .replace(R.id.fragment_main_list_container, MovieDetailsFragment.newInstance(bundle))
             .addToBackStack("MovieDetailsFragment")
             .commit()
     }
