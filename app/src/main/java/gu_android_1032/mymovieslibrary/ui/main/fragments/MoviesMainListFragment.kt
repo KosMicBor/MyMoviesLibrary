@@ -50,15 +50,16 @@ class MoviesMainListFragment : Fragment(R.layout.fragment_main_list) {
         val router = arguments?.getParcelable<MoviesMainRouter>(ACTIVITY_ROUTER)
 
         viewBinding = FragmentMainListBinding.bind(view)
+        val safeBinding = viewBinding ?: return
 
-        val recyclerView: RecyclerView? = viewBinding?.mainRecyclerviewList.also {
-            it?.layoutManager = LinearLayoutManager(requireActivity())
+        val recyclerView: RecyclerView = safeBinding.mainRecyclerviewList.also {
+            it.layoutManager = LinearLayoutManager(requireActivity())
         }
 
         viewModel.getMoviesLiveData().observe(viewLifecycleOwner, {
             when (it) {
                 is AppState.Success -> {
-                    viewBinding?.mainProgressContainer?.visibility = View.GONE
+                    safeBinding.mainProgressContainer.visibility = View.GONE
                     mainListAdapter =
                         MoviesMainListAdapter(it.moviesData, object : OnItemClickListener {
                             override fun onItemClick(movie: Movie) {
@@ -67,20 +68,23 @@ class MoviesMainListFragment : Fragment(R.layout.fragment_main_list) {
                                 router?.openMovieDetails(bundle)
                             }
                         })
-                    recyclerView?.adapter = mainListAdapter
+                    recyclerView.adapter = mainListAdapter
                 }
 
                 is AppState.Error -> {
-                    viewBinding?.mainProgressContainer?.visibility = View.GONE
-                    viewBinding?.mainLayoutContainer?.showErrorSnackBar(
-                        getString(R.string.main_list_loading_error_message),
-                        getString(R.string.main_list_loading_again_message),
-                        {viewModel.getMoviesLiveDataList()}
-                    )
+                    with (safeBinding) {
+                        mainProgressContainer.visibility = View.GONE
+                        mainLayoutContainer.showErrorSnackBar(
+                            getString(R.string.main_list_loading_error_message),
+                            getString(R.string.main_list_loading_again_message),
+                            { viewModel.getMoviesLiveDataList() }
+                        )
+                    }
+
                 }
 
                 is AppState.Loading -> {
-                    viewBinding?.mainProgressContainer?.visibility = View.VISIBLE
+                    safeBinding.mainProgressContainer.visibility = View.VISIBLE
                 }
             }
         })
@@ -92,7 +96,7 @@ class MoviesMainListFragment : Fragment(R.layout.fragment_main_list) {
         fun onItemClick(movie: Movie)
     }
 
-    private fun View.showErrorSnackBar (
+    private fun View.showErrorSnackBar(
         text: String,
         actionText: String,
         action: (View) -> Unit,
