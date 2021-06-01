@@ -2,4 +2,10 @@
 <resources>
     <dimen name="standard_margin">16dp</dimen>
     <dimen name="huge_text_size">32sp</dimen>
+    <dimen name="_0dp">0dp</dimen>
+    <dimen name="main_title_text_size">32sp</dimen>
+    <dimen name="_details_image_size_width">150dp</dimen>
+    <dimen name="_details_image_size_height">240dp</dimen>
+    <dimen name="min_margin">8dp</dimen>
+    <dimen name="vote_star_size">16dp</dimen>
 </resources>

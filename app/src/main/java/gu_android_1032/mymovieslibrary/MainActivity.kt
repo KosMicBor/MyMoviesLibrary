@@ -10,6 +10,8 @@ import gu_android_1032.mymovieslibrary.ui.main.viewmodels.MoviesMainViewModelFac
 
 class MainActivity : AppCompatActivity(), RouterHolder {
 
+    private val ACTIVITY_ROUTER = "ACTIVITY_ROUTER"
+
     override val router = MoviesMainRouter(this)
 
     private lateinit var viewBinding: MainActivityBinding
@@ -22,8 +24,10 @@ class MainActivity : AppCompatActivity(), RouterHolder {
         super.onCreate(savedInstanceState)
 
         viewBinding = MainActivityBinding.inflate(layoutInflater)
-        val view = viewBinding.getRoot()
+        val view = viewBinding.root
         setContentView(view)
+        val bundle = Bundle()
+        bundle.putParcelable(ACTIVITY_ROUTER, router)
 
         if (savedInstanceState == null) {
             router.openMainList()
