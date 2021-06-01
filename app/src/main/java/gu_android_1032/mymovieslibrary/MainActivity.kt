@@ -5,12 +5,13 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import gu_android_1032.mymovieslibrary.databinding.MainActivityBinding
+import gu_android_1032.mymovieslibrary.ui.main.fragments.MoviesMainListFragment
 import gu_android_1032.mymovieslibrary.ui.main.viewmodels.MoviesMainViewModel
 import gu_android_1032.mymovieslibrary.ui.main.viewmodels.MoviesMainViewModelFactory
 
 class MainActivity : AppCompatActivity(), RouterHolder {
 
-    private val ACTIVITY_ROUTER = "ACTIVITY_ROUTER"
+    private val bundle = Bundle()
 
     override val router = MoviesMainRouter(this)
 
@@ -24,13 +25,12 @@ class MainActivity : AppCompatActivity(), RouterHolder {
         super.onCreate(savedInstanceState)
 
         viewBinding = MainActivityBinding.inflate(layoutInflater)
-        val view = viewBinding.root
-        setContentView(view)
-        val bundle = Bundle()
-        bundle.putParcelable(ACTIVITY_ROUTER, router)
+        setContentView(viewBinding.root)
+
+        bundle.putParcelable(MoviesMainListFragment.ACTIVITY_ROUTER, router)
 
         if (savedInstanceState == null) {
-            router.openMainList()
+            router.openMainList(bundle)
         }
 
         val navView: BottomNavigationView = viewBinding.bottomMenu
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity(), RouterHolder {
         navView.setOnNavigationItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.home_button -> {
-                    router.openMainList()
+                    router.openMainList(bundle)
                 }
                 R.id.favorites_button -> {
                     router.openMoviesFavorites()
