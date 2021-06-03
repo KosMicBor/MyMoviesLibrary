@@ -6,10 +6,9 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import gu_android_1032.mymovieslibrary.*
 import gu_android_1032.mymovieslibrary.databinding.FragmentMainListBinding
-import gu_android_1032.mymovieslibrary.domain.Movie
+import gu_android_1032.mymovieslibrary.domain.responses.Movie
 import gu_android_1032.mymovieslibrary.ui.main.adapters.MoviesMainListAdapter
 
 import gu_android_1032.mymovieslibrary.ui.main.viewmodels.MoviesMainViewModel
@@ -42,12 +41,16 @@ class MoviesMainListFragment : Fragment(R.layout.fragment_main_list) {
 
         viewModel = ViewModelProvider(requireActivity(), factory)
             .get(MoviesMainViewModel::class.java)
+
+        if (savedInstanceState == null){
+            viewModel.getMoviesLiveDataList()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val router = arguments?.getParcelable<MoviesMainRouter>(ACTIVITY_ROUTER)
+        val router = MoviesMainRouter(requireActivity() as MainActivity )
 
         viewBinding = FragmentMainListBinding.bind(view)
         val safeBinding = viewBinding ?: return
@@ -56,37 +59,17 @@ class MoviesMainListFragment : Fragment(R.layout.fragment_main_list) {
             it.layoutManager = LinearLayoutManager(requireActivity())
         }
 
-        viewModel.getMoviesLiveData().observe(viewLifecycleOwner, {
-            when (it) {
-                is AppState.Success -> {
-                    safeBinding.mainProgressContainer.visibility = View.GONE
-                    mainListAdapter =
-                        MoviesMainListAdapter(it.moviesData, object : OnItemClickListener {
-                            override fun onItemClick(movie: Movie) {
-                                val bundle = Bundle()
-                                bundle.putParcelable(MovieDetailsFragment.BUNDLE_EXTRA, movie)
-                                router?.openMovieDetails(bundle)
-                            }
-                        })
-                    recyclerView.adapter = mainListAdapter
-                }
-
-                is AppState.Error -> {
-                    with (safeBinding) {
-                        mainProgressContainer.visibility = View.GONE
-                        mainLayoutContainer.showErrorSnackBar(
-                            getString(R.string.main_list_loading_error_message),
-                            getString(R.string.main_list_loading_again_message),
-                            { viewModel.getMoviesLiveDataList() }
-                        )
+        viewModel.moviesListLiveData.observe(viewLifecycleOwner, {
+            mainListAdapter =
+                MoviesMainListAdapter(it, object :
+                    OnItemClickListener {
+                    override fun onItemClick(movie: Movie) {
+                        val bundle = Bundle()
+                        bundle.putParcelable(MovieDetailsFragment.BUNDLE_EXTRA, movie)
+                        router.openMovieDetails(bundle)
                     }
-
-                }
-
-                is AppState.Loading -> {
-                    safeBinding.mainProgressContainer.visibility = View.VISIBLE
-                }
-            }
+                })
+            recyclerView.adapter = mainListAdapter
         })
 
         viewModel.getMoviesLiveDataList()
@@ -94,15 +77,6 @@ class MoviesMainListFragment : Fragment(R.layout.fragment_main_list) {
 
     interface OnItemClickListener {
         fun onItemClick(movie: Movie)
-    }
-
-    private fun View.showErrorSnackBar(
-        text: String,
-        actionText: String,
-        action: (View) -> Unit,
-        length: Int = Snackbar.LENGTH_INDEFINITE
-    ) {
-        Snackbar.make(this, text, length).setAction(actionText, action).show()
     }
 
     override fun onDestroyView() {
