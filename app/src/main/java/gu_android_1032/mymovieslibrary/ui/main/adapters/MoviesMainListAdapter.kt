@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import gu_android_1032.mymovieslibrary.R
 import gu_android_1032.mymovieslibrary.domain.Movie
 import gu_android_1032.mymovieslibrary.ui.main.fragments.MoviesMainListFragment
-import gu_android_1032.mymovieslibrary.ui.main.viewmodels.MoviesMainViewModel
 
 class MoviesMainListAdapter(
     private val movies: List<Movie>,
@@ -18,13 +17,8 @@ class MoviesMainListAdapter(
     RecyclerView.Adapter<MoviesMainListAdapter.MoviesMainListViewHolder>() {
 
     inner class MoviesMainListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var titleTextView: TextView? = null
-        var itemImage: ImageView? = null
-
-        init {
-            titleTextView = itemView.findViewById(R.id.main_list_item_title)
-            itemImage = itemView.findViewById(R.id.main_list_item_image)
-        }
+        val titleTextView: TextView? = itemView.findViewById(R.id.main_list_item_title)
+        val itemImage: ImageView? = itemView.findViewById(R.id.main_list_item_image)
 
         fun bind (movie: Movie) {
             itemView.setOnClickListener {
@@ -41,9 +35,15 @@ class MoviesMainListAdapter(
     }
 
     override fun onBindViewHolder(holder: MoviesMainListViewHolder, position: Int) {
-        holder.titleTextView?.text = movies[position].originalTitle
-        holder.bind(movies[position])
+        holder.apply {
+            titleTextView?.text = movies[position].originalTitle
+            bind(movies[position])
+        }
     }
 
     override fun getItemCount() = movies.size
+
+    fun removeListener() {
+        clickListener = null
+    }
 }

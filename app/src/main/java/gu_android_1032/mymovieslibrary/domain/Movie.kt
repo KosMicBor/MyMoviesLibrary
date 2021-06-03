@@ -15,10 +15,5 @@ enum class MoviesCategory {
 data class Movie(
     val id: Double,
     val originalTitle: String,
-    val localTitle: String,
-//    val posterUrl: String?,
-//    val category: MoviesCategory,
-//    val voteAverage: Number,
-//    val voteCount: Int,
-//    val isForAdultOnly: Boolean
+    val localTitle: String
 ): Parcelable

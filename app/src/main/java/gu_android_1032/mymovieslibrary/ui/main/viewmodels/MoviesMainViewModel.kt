@@ -7,6 +7,7 @@ import gu_android_1032.mymovieslibrary.AppState
 import gu_android_1032.mymovieslibrary.ResourceProvider
 import gu_android_1032.mymovieslibrary.domain.Movie
 import gu_android_1032.mymovieslibrary.domain.MoviesRepositoryImpl
+import java.lang.Thread.sleep
 
 class MoviesMainViewModel(
     private val resourceProvider: ResourceProvider, // добавлен в проект для тренировки
@@ -20,6 +21,10 @@ class MoviesMainViewModel(
 
     fun getMoviesLiveDataList(){
         val moviesList = repository.getTestMovies()
-        moviesLiveData.postValue(AppState.Success(moviesList))
+        moviesLiveData.value = AppState.Loading
+        Thread {
+            sleep(1000)
+            moviesLiveData.postValue(AppState.Success(moviesList))
+        }.start()
     }
 }

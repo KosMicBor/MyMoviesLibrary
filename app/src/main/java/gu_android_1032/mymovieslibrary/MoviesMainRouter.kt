@@ -10,17 +10,15 @@ import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.RawValue
 
 @Parcelize
-class MoviesMainRouter(private val activity: @RawValue MainActivity ): Parcelable {
+class MoviesMainRouter(private val activity: @RawValue MainActivity): Parcelable {
 
-    val bundle = Bundle()
-
-    fun openMainList(){
+    fun openMainList(bundle: Bundle){
         activity.supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_main_list_container, MoviesMainListFragment())
+            .replace(R.id.fragment_main_list_container, MoviesMainListFragment.newInstance(bundle))
             .commit()
     }
 
-    fun openMovieDetails(){
+    fun openMovieDetails(bundle: Bundle){
         activity.supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_main_list_container, MovieDetailsFragment.newInstance(bundle))
             .addToBackStack("MovieDetailsFragment")

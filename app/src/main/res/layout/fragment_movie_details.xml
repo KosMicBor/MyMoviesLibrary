@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/details_container"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -72,9 +73,9 @@
         android:layout_width="@dimen/vote_star_size"
         android:layout_height="@dimen/vote_star_size"
         android:background="@drawable/ic_baseline_star_24"
-        app:layout_constraintTop_toTopOf="@id/movie_details_votes"
+        app:layout_constraintBottom_toTopOf="@id/movie_details_budget"
         app:layout_constraintStart_toEndOf="@id/movie_details_votes"
-        app:layout_constraintBottom_toTopOf="@id/movie_details_budget"/>
+        app:layout_constraintTop_toTopOf="@id/movie_details_votes" />
 
     <TextView
         android:id="@+id/movie_details_budget"
@@ -121,5 +122,21 @@
         in every town, until an eccentric gets in the way and ignites an
         out-of-control spiral toward oblivion." />
 
+
+    <FrameLayout
+        android:id="@+id/details_progress_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <ProgressBar
+            android:id="@+id/details_progress_bar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
