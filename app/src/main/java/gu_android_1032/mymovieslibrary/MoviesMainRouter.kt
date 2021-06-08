@@ -18,9 +18,9 @@ class MoviesMainRouter(private val activity: MainActivity) {
             .commit()
     }
 
-    fun openMovieDetails(bundle: Bundle){
+    fun openMovieDetails(){
         activity.supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_main_list_container, MovieDetailsFragment.newInstance(bundle))
+            .replace(R.id.fragment_main_list_container, MovieDetailsFragment())
             .addToBackStack("MovieDetailsFragment")
             .commit()
     }

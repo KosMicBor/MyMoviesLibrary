@@ -6,5 +6,5 @@ import java.util.concurrent.Executor
 
 interface MoviesRepository {
     fun getMoviesList(executor: Executor, callback: (result: AppState<List<Movie>>) -> Unit)
-    fun getMovie(executor: Executor, movie_id: Int, callback: (result: AppState<Movie>) -> Unit)
+    fun getMovie(executor: Executor, movieId: Int?, callback: (result: AppState<Movie>) -> Unit)
 }
