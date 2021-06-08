@@ -1,10 +1,13 @@
 package gu_android_1032.mymovieslibrary
 
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import gu_android_1032.mymovieslibrary.databinding.MainActivityBinding
+import gu_android_1032.mymovieslibrary.domain.ConnectivityActionReceiver
 import gu_android_1032.mymovieslibrary.ui.main.fragments.MoviesMainListFragment
 import gu_android_1032.mymovieslibrary.ui.main.viewmodels.MoviesMainViewModel
 import gu_android_1032.mymovieslibrary.ui.main.viewmodels.MoviesMainViewModelFactory
@@ -50,5 +53,10 @@ class MainActivity : AppCompatActivity(), RouterHolder {
             }
             return@setOnNavigationItemSelectedListener true
         }
+         val cR = ConnectivityActionReceiver()
+        IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION).also {
+            registerReceiver(cR, it)
+        }
+
     }
 }

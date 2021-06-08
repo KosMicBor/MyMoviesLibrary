@@ -18,6 +18,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:name=".domain.GetMovieService"
+            android:exported="false"/>
+
+        <receiver android:name=".domain.ConnectivityActionReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.LOCALE_CHANGED"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

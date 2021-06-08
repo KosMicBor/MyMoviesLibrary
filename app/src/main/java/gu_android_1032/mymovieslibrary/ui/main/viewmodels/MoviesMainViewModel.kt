@@ -21,6 +21,7 @@ class MoviesMainViewModel(
     private val _errorLiveData = MutableLiveData<String?>()
     private val _moviesListLiveData = MutableLiveData<List<Movie>>()
     private val _movieLiveData = MutableLiveData<Movie?>()
+    private lateinit var moviesList: List<Movie>
 
     val loadingLiveData: LiveData<Boolean> = _loadingLiveData
     val errorLiveData: LiveData<String?> = _errorLiveData
@@ -34,7 +35,7 @@ class MoviesMainViewModel(
         repository.getMoviesList(executor) {
             when (it) {
                 is AppState.Success -> {
-                    val moviesList = it.moviesData
+                    moviesList = it.moviesData
                     _moviesListLiveData.value = moviesList
 
                     _errorLiveData.value = null

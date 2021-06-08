@@ -1,13 +1,16 @@
 package gu_android_1032.mymovieslibrary.ui.main.fragments
 
+import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import gu_android_1032.mymovieslibrary.*
 import gu_android_1032.mymovieslibrary.databinding.FragmentMainListBinding
+import gu_android_1032.mymovieslibrary.domain.GetMovieService
 import gu_android_1032.mymovieslibrary.domain.responses.Movie
 import gu_android_1032.mymovieslibrary.ui.main.adapters.MoviesMainListAdapter
 
@@ -42,7 +45,7 @@ class MoviesMainListFragment : Fragment(R.layout.fragment_main_list) {
         viewModel = ViewModelProvider(requireActivity(), factory)
             .get(MoviesMainViewModel::class.java)
 
-        if (savedInstanceState == null){
+        if (savedInstanceState == null) {
             viewModel.getMoviesLiveDataList()
         }
     }
@@ -50,7 +53,7 @@ class MoviesMainListFragment : Fragment(R.layout.fragment_main_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val router = MoviesMainRouter(requireActivity() as MainActivity )
+        val router = MoviesMainRouter(requireActivity() as MainActivity)
 
         viewBinding = FragmentMainListBinding.bind(view)
         val safeBinding = viewBinding ?: return
@@ -64,12 +67,19 @@ class MoviesMainListFragment : Fragment(R.layout.fragment_main_list) {
                 MoviesMainListAdapter(it, object :
                     OnItemClickListener {
                     override fun onItemClick(movie: Movie) {
-                        val bundle = Bundle()
-                        bundle.putParcelable(MovieDetailsFragment.BUNDLE_EXTRA, movie)
-                        router.openMovieDetails(bundle)
+                        requireContext().startService(
+                            Intent(
+                                requireContext(),
+                                GetMovieService::class.java
+                            ).apply { putExtra(GetMovieService.ARG_MOVIE, movie.id) })
+                        router.openMovieDetails()
                     }
                 })
             recyclerView.adapter = mainListAdapter
+        })
+
+        viewModel.errorLiveData.observe(viewLifecycleOwner, {
+            Snackbar.make(view,getString(R.string._loading_error), Snackbar.LENGTH_SHORT)
         })
 
         viewModel.getMoviesLiveDataList()

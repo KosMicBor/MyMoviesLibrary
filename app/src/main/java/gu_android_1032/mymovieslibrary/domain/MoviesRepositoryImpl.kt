@@ -6,7 +6,6 @@ import gu_android_1032.mymovieslibrary.AppState
 import gu_android_1032.mymovieslibrary.BuildConfig
 import gu_android_1032.mymovieslibrary.domain.responses.Movie
 import gu_android_1032.mymovieslibrary.domain.responses.MovieDBLists
-import gu_android_1032.mymovieslibrary.domain.responses.Results
 import java.lang.Exception
 import java.net.URL
 import java.util.concurrent.Executor
@@ -14,7 +13,7 @@ import javax.net.ssl.HttpsURLConnection
 
 class MoviesRepositoryImpl : MoviesRepository {
 
-    private val TIMEOUT_TIME_VALUE = 30_000
+    private val TIMEOUT_TIME_VALUE = 10_000
 
     private val mainHandler = android.os.Handler(Looper.getMainLooper())
     private val gson by lazy { Gson() }
@@ -41,7 +40,7 @@ class MoviesRepositoryImpl : MoviesRepository {
                     mainHandler.post { callback.invoke(AppState.Success(moviesList)) }
                 }
             } catch (e: Exception) {
-                e.printStackTrace()
+                callback.invoke(AppState.Error(e))
             } finally {
                 connection.disconnect()
             }
@@ -50,14 +49,14 @@ class MoviesRepositoryImpl : MoviesRepository {
 
     override fun getMovie(
         executor: Executor,
-        movie_id: Int,
+        movieId: Int?,
         callback: (result: AppState<Movie>) -> Unit
     ) {
 
         executor.execute {
 
             val url =
-                URL("https://api.themoviedb.org/3/movie/${movie_id}?api_key=${BuildConfig.MOVIEDB_API_KEY}&language=en-US")
+                URL("https://api.themoviedb.org/3/movie/${movieId}?api_key=${BuildConfig.MOVIEDB_API_KEY}&language=en-US")
             val connection = url.openConnection() as HttpsURLConnection
 
             try {
@@ -73,7 +72,7 @@ class MoviesRepositoryImpl : MoviesRepository {
                     }
                 }
             } catch (e: Exception) {
-
+                callback.invoke(AppState.Error(e))
             } finally {
                 connection.disconnect()
             }
