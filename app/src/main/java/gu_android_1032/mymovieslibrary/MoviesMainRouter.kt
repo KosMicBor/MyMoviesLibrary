@@ -9,8 +9,8 @@ import gu_android_1032.mymovieslibrary.ui.main.fragments.MoviesRatingsFragment
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.RawValue
 
-@Parcelize
-class MoviesMainRouter(private val activity: @RawValue MainActivity): Parcelable {
+
+class MoviesMainRouter(private val activity: MainActivity) {
 
     fun openMainList(bundle: Bundle){
         activity.supportFragmentManager.beginTransaction()

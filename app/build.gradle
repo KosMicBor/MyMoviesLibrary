@@ -36,6 +36,13 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+    buildTypes.each {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("apikey.properties").newDataInputStream())
+        def apiKey = properties.getProperty("moviedb_api_key", "")
+        it.buildConfigField "String", "MOVIEDB_API_KEY", apiKey
+    }
 }
 
 dependencies {
@@ -48,8 +55,11 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.fragment:fragment-ktx:1.4.0-alpha01'
-    implementation 'androidx.recyclerview:recyclerview:1.2.0'
+    implementation 'androidx.fragment:fragment-ktx:1.4.0-alpha02'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+
+    implementation 'com.google.code.gson:gson:2.8.7'
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

@@ -27,8 +27,6 @@ class MainActivity : AppCompatActivity(), RouterHolder {
         viewBinding = MainActivityBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
-        bundle.putParcelable(MoviesMainListFragment.ACTIVITY_ROUTER, router)
-
         if (savedInstanceState == null) {
             router.openMainList(bundle)
         }

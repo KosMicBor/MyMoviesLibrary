@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import gu_android_1032.mymovieslibrary.R
-import gu_android_1032.mymovieslibrary.domain.Movie
+import gu_android_1032.mymovieslibrary.domain.responses.Movie
 import gu_android_1032.mymovieslibrary.ui.main.fragments.MoviesMainListFragment
 
 class MoviesMainListAdapter(
@@ -36,7 +36,7 @@ class MoviesMainListAdapter(
 
     override fun onBindViewHolder(holder: MoviesMainListViewHolder, position: Int) {
         holder.apply {
-            titleTextView?.text = movies[position].originalTitle
+            titleTextView?.text = movies[position].title
             bind(movies[position])
         }
     }
@@ -44,6 +44,6 @@ class MoviesMainListAdapter(
     override fun getItemCount() = movies.size
 
     fun removeListener() {
-        clickListener = null
+        //clickListener = null
     }
 }

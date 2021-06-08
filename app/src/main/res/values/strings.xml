@@ -10,4 +10,6 @@
     <string name="main_list_loading_error_message">There is loading error</string>
     <string name="main_list_loading_again_message">Let\'s try again</string>
     <string name="details_loaded_message">The page is loaded</string>
+    <string name="_genres_text">\"Genres: \"</string>
+    <string name="release_date">\"Release date: \"</string>
 </resources>
